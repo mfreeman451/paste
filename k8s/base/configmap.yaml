@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microbin-config
+data:
+  MICROBIN_ADMIN_PASSWORD: "changeme"
+  MICROBIN_ADMIN_USERNAME: "admin"
+  MICROBIN_DATA_DIR: "/app/microbin_data"
+  MICROBIN_EDITABLE: "true"
+  MICROBIN_ENABLE_READONLY: "true"
+  MICROBIN_HIGHLIGHTSYNTAX: "true"
+  MICROBIN_PRIVATE: "true"
+  MICROBIN_PUBLIC_PATH: "https://paste.tunnel.threadr.ai"
+  MICROBIN_QR: "true"
+  MICROBIN_SHOW_READ_STATS: "true"
+  MICROBIN_THREADS: "2"
+  MICROBIN_BIND: "0.0.0.0"
+  MICROBIN_PORT: "8080"

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microbin
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microbin
+  template:
+    metadata:
+      labels:
+        app: microbin
+    spec:
+      containers:
+        - name: microbin
+          image: danielszabo99/microbin:latest
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: microbin-config
+          volumeMounts:
+            - name: microbin-data
+              mountPath: /app/microbin_data
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: microbin-data
+          persistentVolumeClaim:
+            claimName: microbin-data-pvc

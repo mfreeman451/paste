@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microbin-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "threadr-issuer"
+    external-dns.alpha.kubernetes.io/hostname: "paste.tunnel.threadr.ai"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1024m"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - paste.tunnel.threadr.ai
+      secretName: paste-threadr-tls
+  rules:
+    - host: paste.tunnel.threadr.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: microbin
+                port:
+                  number: 80
